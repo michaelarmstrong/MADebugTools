@@ -13,6 +13,9 @@
 #import "UIViewController+MADebugTools.h"
 #import <objc/runtime.h>
 
+static UIFont *debugLabelFont;
+static CGFloat debugLabelFontSize = 12.0f;
+
 // shouldn’t pollute the class’s namespace => static funtion (inline to not declare, and then define with -Wpedantic)
 static inline NSString *s_DebugDescriptionForViewController(UIViewController *controller)
 {
@@ -57,10 +60,14 @@ static inline void Swizzle(Class c, SEL sourceSelector, SEL destSelector)
     [self override_viewDidLoad];
     
     // now run custom code
-    UILabel *label = [[UILabel alloc] init];
-    label.text = s_DebugDescriptionForViewController(self);
-    [label sizeToFit];
-    [self.view addSubview:label];
+    UILabel *debugLabel = [[UILabel alloc] init];
+    debugLabel.text = s_DebugDescriptionForViewController(self);
+    if(!debugLabelFont){
+        debugLabelFont = [UIFont systemFontOfSize:debugLabelFontSize];
+    }
+    [debugLabel setFont:debugLabelFont];
+    [debugLabel sizeToFit];
+    [self.view addSubview:debugLabel];
 }
 
 
