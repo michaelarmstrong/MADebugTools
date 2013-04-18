@@ -13,6 +13,26 @@
 #import "UIViewController+MADebugTools.h"
 #import <objc/runtime.h>
 
+// shouldn’t pollute the class’s namespace => static funtion (inline to not declare, and then define with -Wpedantic)
+static inline NSString *s_DebugDescriptionForViewController(UIViewController *controller)
+{
+    NSMutableString *instanceDescription = [NSMutableString stringWithUTF8String:class_getName ([controller class])];
+    if([controller.nibName length] > 0) {
+        [instanceDescription appendString:@" (NIB: "];
+        [instanceDescription appendString:controller.nibName];
+
+        NSString *storyboardDescription = [controller.storyboard description];
+        if([storyboardDescription length] > 0) {
+            [instanceDescription appendString:@", Storyboard: "];
+            [instanceDescription appendString:storyboardDescription];
+        }
+
+        [instanceDescription appendString:@")"];
+    }
+
+    return [instanceDescription copy];
+}
+
 @implementation UIViewController (MADebugTools)
 
 void Swizzle(Class c, SEL sourceSelector, SEL destSelector)
@@ -38,7 +58,7 @@ void Swizzle(Class c, SEL sourceSelector, SEL destSelector)
     
     // now run custom code
     UILabel *label = [[UILabel alloc] init];
-    label.text = [NSString stringWithUTF8String:class_getName ([self class])];
+    label.text = s_DebugDescriptionForViewController(self);
     [label sizeToFit];
     [self.view addSubview:label];
 }
