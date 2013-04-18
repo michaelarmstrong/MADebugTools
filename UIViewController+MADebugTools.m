@@ -33,9 +33,7 @@ static inline NSString *s_DebugDescriptionForViewController(UIViewController *co
     return [instanceDescription copy];
 }
 
-@implementation UIViewController (MADebugTools)
-
-void Swizzle(Class c, SEL sourceSelector, SEL destSelector)
+static inline void Swizzle(Class c, SEL sourceSelector, SEL destSelector)
 {
     Method sourceMethod = class_getInstanceMethod(c, sourceSelector);
     Method destMethod = class_getInstanceMethod(c, destSelector);
@@ -45,6 +43,8 @@ void Swizzle(Class c, SEL sourceSelector, SEL destSelector)
         method_exchangeImplementations(sourceMethod, destMethod);
     }
 }
+
+@implementation UIViewController (MADebugTools)
 
 + (void)load
 {
