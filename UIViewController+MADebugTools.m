@@ -11,7 +11,7 @@
 //
 
 #import "UIViewController+MADebugTools.h"
-#import <objc/runtime.h>
+#import "MADebugTools.h"
 
 static UIFont *debugLabelFont;
 static CGFloat debugLabelFontSize = 12.0f;
@@ -34,17 +34,6 @@ static inline NSString *s_DebugDescriptionForViewController(UIViewController *co
     }
 
     return [instanceDescription copy];
-}
-
-static inline void Swizzle(Class c, SEL sourceSelector, SEL destSelector)
-{
-    Method sourceMethod = class_getInstanceMethod(c, sourceSelector);
-    Method destMethod = class_getInstanceMethod(c, destSelector);
-    if(class_addMethod(c, sourceSelector, method_getImplementation(destMethod), method_getTypeEncoding(destMethod))) {
-        class_replaceMethod(c, destSelector, method_getImplementation(sourceMethod), method_getTypeEncoding(sourceMethod));
-    } else {
-        method_exchangeImplementations(sourceMethod, destMethod);
-    }
 }
 
 @implementation UIViewController (MADebugTools)
