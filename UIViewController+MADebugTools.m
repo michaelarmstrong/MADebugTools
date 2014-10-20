@@ -34,6 +34,7 @@ static inline NSString *s_DebugDescriptionForViewController(UIViewController *co
     }
 
     return [instanceDescription copy];
+    return @"";
 }
 
 @implementation UIViewController (MADebugTools)
@@ -48,6 +49,7 @@ static inline NSString *s_DebugDescriptionForViewController(UIViewController *co
     // run existing implementation
     [self override_viewDidLoad];
     
+#ifndef MA_DEBUG_TOOLS_DISABLE_VIEW_DEBUG
     // now run custom code
     UILabel *debugLabel = [[UILabel alloc] init];
     debugLabel.text = s_DebugDescriptionForViewController(self);
@@ -57,6 +59,7 @@ static inline NSString *s_DebugDescriptionForViewController(UIViewController *co
     [debugLabel setFont:debugLabelFont];
     [debugLabel sizeToFit];
     [self.view addSubview:debugLabel];
+#endif
 }
 
 

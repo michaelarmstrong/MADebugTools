@@ -27,6 +27,7 @@
     // run existing implementation
     [self override_awakeFromNib];
     
+#ifndef MA_DEBUG_TOOLS_DISABLE_WEB_DEBUG
     // now run custom code
     
     if([self viewWithTag:100] != nil && [self viewWithTag:101] != nil){
@@ -75,6 +76,7 @@
     
     [self addSubview:consoleTextField];
     [self addSubview:consoleOutputTextView];
+#endif
 }
 
 - (void)evalTapped:(id)sender {
