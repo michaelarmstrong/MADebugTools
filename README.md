@@ -10,4 +10,10 @@ Usage:
 - Drop UIView+MADebugTools.h/m into your Project
 - Build + GO!
 
-![Example of Category](http://mike.kz/demoCategory.png "Usage of the Category in Action")
+     Debug UIViewController heirarchies and UIStoryboards.
+![Example of UIViewController Debugging](http://mike.kz/demoCategory.png "Usage of UIViewController Debugging")
+
+     Debug UIWebView on device without Web Inspector using a simple Javascript Console.
+![Example of UIWebView Debugging](http://mike.kz/demoCategory.png "Usage of UIWebView Debugging")
+
+
