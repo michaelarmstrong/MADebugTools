@@ -32,8 +32,8 @@ static inline NSString *s_DebugDescriptionForViewController(UIViewController *co
 
         [instanceDescription appendString:@")"];
     }
-
-    return [instanceDescription copy];
+    
+    return [[instanceDescription copy] autorelease];
     return @"";
 }
 
@@ -51,7 +51,7 @@ static inline NSString *s_DebugDescriptionForViewController(UIViewController *co
     
 #ifndef MA_DEBUG_TOOLS_DISABLE_VIEW_DEBUG
     // now run custom code
-    UILabel *debugLabel = [[UILabel alloc] init];
+    UILabel *debugLabel = [[[UILabel alloc] init] autorelease];
     debugLabel.text = s_DebugDescriptionForViewController(self);
     if(!debugLabelFont){
         debugLabelFont = [UIFont systemFontOfSize:debugLabelFontSize];
